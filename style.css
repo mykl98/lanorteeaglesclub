@@ -1,0 +1,77 @@
+
+/*===========Login page CSS Rules===========*/
+
+.login-body {
+    background: url('system/images/login-background.jpg');
+    background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.login-wrapper {
+    background:rgba(0, 0, 0, 0.7);
+    height: 100vh;
+    position: relative;
+}
+
+.login-box {
+    width: 60%;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    transition: 300ms;
+}
+
+.login-box-info {
+    background: #008F49;
+    padding: 45px 30px !important;
+    text-align: center;
+}
+
+.login-box-info p {
+    line-height: 25px !important;
+}
+
+.login-box-form {
+    background: #fff;
+    color: #333;
+    padding: 45px 30px !important;
+}
+
+.login-box-info a,
+.login-box-form button,
+.login-box-form input[type=submit] {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.btn-theme {
+    background: #008F49;
+    color: #fff;
+}
+
+.btn-outline-theme {
+    color: #008F49;
+    border: 1px solid #008F49;
+    background: #fff;
+}
+
+.btn-outline-theme:hover {
+    color: #fff;
+    background: #008F49;
+}
+
+.text-theme {
+    color: #008F49 !important;
+}
+
+
+
+/*==Login and Register page CSS Rules=====*/
+
+
+
+
