@@ -6,6 +6,7 @@
     if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
     
     }else{
+        session_destroy();
         header("location:".$baseUrl."/index.php");
         exit();
     }
@@ -68,7 +69,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
-                <img id="global-client-logo" src="../../../system/images/logo.png" class="rounded-circle" width="100px">
+                <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle mb-2" width="100px">
                 <p id="global-department-name" class="">Admin</p>
             </a>
             <?php include "../side-nav-bar.html"?>

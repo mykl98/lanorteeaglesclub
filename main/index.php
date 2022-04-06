@@ -10,7 +10,9 @@ include_once "../system/backend/config.php";
             if(mysqli_num_rows($result) > 0){
                 $row = mysqli_fetch_array($result);
                 $access = $row["access"];
+                $club = $row["club"];
                 $_SESSION["access"] = $access;
+                $_SESSION["club"] = $club;
                 header("location:" .$access. "/dashboard");
             }else{
                 session_destroy();

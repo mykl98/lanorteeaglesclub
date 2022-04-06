@@ -72,11 +72,11 @@
 
     <div class="container-fluid login-wrapper">
         <div class="login-box">
-            <h1 class="text-center mb-5">Kauswagan Lanao del Norte<br>2022 Election Survey</h1>    
+            <h1 class="text-center mb-5">The Lanorte Eagles Club</h1>    
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-12 login-box-info">
+                <div class="col-md-6 col-sm-6 col-12 login-box-info bg-dark">
                     <h3 class="mb-4">Welcome Back!</h3>
-                    <img src="system/images/logo.png" width="150" class="rounded-circle">
+                    <img src="system/images/logo.png" width="200" class="rounded-circle">
                 </div>
                 <div class="col-md-6 col-sm-6 col-12 login-box-form p-4">
                     <h3 class="mb-2">Login</h3>
@@ -100,7 +100,7 @@
                             <a href="#">
                                 <small class="text-danger font-italic"><?php echo $error;?></small>
                             </a>
-                            <input type="submit" class="btn btn-theme btn-block p-2 mb-1" value="Login">
+                            <input type="submit" class="btn btn-dark btn-block p-2 mb-1" value="Login">
                         </div>
                     </form>
                 </div>

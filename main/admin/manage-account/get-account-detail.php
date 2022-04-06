@@ -26,7 +26,7 @@
         }
 
         session_start();
-        if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+        if($_SESSION["isLoggedIn"] == "true"){
             $idx = sanitize($_POST["idx"]);
             echo getAccountDetail($idx);
         }else{

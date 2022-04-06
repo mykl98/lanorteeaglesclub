@@ -5,12 +5,23 @@ $(document).ready(function() {
     },100)
 })
 
+$(document).on('shown.lte.pushmenu', function(){
+    $("#global-department-name").show();
+    $("#global-client-logo").attr("width","100px");
+})
+
+$(document).on('collapsed.lte.pushmenu', function(){
+    $("#global-department-name").hide();
+    $("#global-client-logo").attr("width","40px");
+})
+
 $(".modal").on("hidden.bs.modal",function(){
     $(this).find("form").trigger("reset");
 })
 
 getAccountList();
 getUserDetails();
+getClubList();
 var baseUrl = $("#base-url").text();
 
 function getUserDetails(){
@@ -74,9 +85,10 @@ function renderAccountList(data){
                             <tr>\
                                 <th>Name</th>\
                                 <th>Username</th>\
+                                <th>Club</th>\
                                 <th>Access</th>\
                                 <th>Status</th>\
-                                <th style="max-width:40px;min-width:40px;">Action</th>\
+                                <th style="max-width:50px;min-width:50px;">Action</th>\
                             </tr>\
                         </thead>\
                         <tbody>';
@@ -88,6 +100,7 @@ function renderAccountList(data){
         markUp += '<tr>\
                         <td>'+list.name+'</td>\
                         <td>'+list.username+'</td>\
+                        <td>'+list.club+'</td>\
                         <td>'+list.access+'</td>\
                         <td>'+list.status+'</td>\
                         <td>\
@@ -101,6 +114,51 @@ function renderAccountList(data){
     $("#manage-account-table").DataTable();
 }
 
+function getClubList(){
+    $.ajax({
+		type: "POST",
+		url: "get-club-list.php",
+		dataType: 'html',
+		data: {
+			dummy:"dummy"
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				renderClubList(resp[1]);
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
+}
+
+function renderClubList(data){
+    var lists = JSON.parse(data);
+    var markUp = '<div class="form-group" id="club-container">\
+                        <label for="account-club" class="col-form-label">Club:</label>\
+                        <select class="form-control" id="account-club">\
+                            <option value="">SELECT CLUB</option>';
+    lists.forEach(function(list){
+        markUp += '<option value="'+list.idx+'">'+list.name+'</option>';
+    })
+    markUp += '</select></div>';
+    $("#club-select-container").html(markUp);
+    $("#club-container").hide();
+}
+
+function accessChange(){
+    var access = $("#account-access").val();
+    if(access == "president"){
+        $("#club-container").show();
+    }else{
+        $("#club-container").hide();
+        $("#account-club").val("");
+    }
+}
+
 function addAccount(){
     manageAccountIdx = "";
     $("#add-edit-account-modal").modal("show");
@@ -110,6 +168,7 @@ function addAccount(){
 function saveAccount(){
     var name = $("#account-name").val();
     var username = $("#account-username").val();
+    var club = $("#account-club").val();
     var access = $("#account-access").val();
     var status = $("#account-status").val();
 
@@ -119,7 +178,9 @@ function saveAccount(){
     }else if(username == "" || username == undefined){
         error = "*Username field should not be empty.";
     }else if(access == "" || access == undefined){
-        error = "*Please select access level.";
+        error = "*Please select access level!";
+    }else if(access == "president" && club == ""){
+        error = "*Please select club!";
     }else{
         $.ajax({
             type: "POST",
@@ -129,6 +190,7 @@ function saveAccount(){
                 idx:manageAccountIdx,
                 name:name,
                 username:username,
+                club:club,
                 access:access,
                 status:status
             },
@@ -184,6 +246,7 @@ function renderEditAccount(data){
     })
     $("#save-account-error").text("");
     $("#add-edit-account-modal").modal("show");
+    accessChange();
 }
 
 function deleteAccount(idx,name){

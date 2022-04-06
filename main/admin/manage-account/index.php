@@ -69,10 +69,9 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
-                <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle" width="100px">
+                <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle mb-2" width="100px">
                 <p id="global-department-name" class="">Admin</p>
             </a>
-
             <?php include "../side-nav-bar.html"?>
         </aside>
         <!-- Content Wrapper. Contains page content -->
@@ -145,11 +144,12 @@
                         </div>
                         <div class="form-group">
                             <label for="account-access" class="col-form-label">Access:</label>
-                            <select class="form-control" id="account-access">
+                            <select class="form-control" id="account-access" onchange="accessChange()">
                                 <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
+                                <option value="president">President</option>
                             </select>
                         </div>
+                        <div id="club-select-container"></div>
                         <div class="form-group">
                             <label for="account-status" class="col-form-label">Status:</label>
                             <select class="form-control" id="account-status">

@@ -4,6 +4,17 @@ $(document).ready(function() {
         $("#dashboard-menu").addClass("active");
     },100)
 });
+
+$(document).on('shown.lte.pushmenu', function(){
+    $("#global-department-name").show();
+    $("#global-client-logo").attr("width","100px");
+})
+
+$(document).on('collapsed.lte.pushmenu', function(){
+    $("#global-department-name").hide();
+    $("#global-client-logo").attr("width","40px");
+})
+
 getUserDetails();
 getDashboardDetails();
 
@@ -71,24 +82,6 @@ function renderUserDetails(data){
         $("#global-user-name").text(list.name);
     })
 
-}
-
-$(document).on('shown.lte.pushmenu', function(){
-    $("#global-department-name").show();
-    $("#global-client-logo").attr("width","100px");
-})
-
-$(document).on('collapsed.lte.pushmenu', function(){
-    $("#global-department-name").hide();
-    $("#global-client-logo").attr("width","40px");
-})
-
-/*============== Toggle Dropdown ==================*/
-function toggle_menu(ele) {
-    //close all ul with children class that are open except the one with the selected id
-    $( '.children' ).not( document.getElementById(ele) ).slideUp("Normal");
-    $( "#"+ele ).slideToggle("Normal");
-    localStorage.setItem('lastTab', ele);
 }
 
 function logout(){

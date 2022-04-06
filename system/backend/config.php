@@ -12,9 +12,9 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "survey";
+	$dbname = "eagles";
 	$conn = new mysqli($servername, $username, $password, $dbname);
-	$baseUrl = "http://localhost/survey";
+	$baseUrl = "http://localhost/lanorteeaglesclub";
 }
 
 date_default_timezone_set("Asia/Manila");
