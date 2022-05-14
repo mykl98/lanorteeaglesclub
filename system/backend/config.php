@@ -3,11 +3,11 @@ $whitelist = array('127.0.0.1', "::1");
 
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
     $servername = "localhost";
-	$username = "u528264240_eagles";
+	$username = "u190094471_eagles";
 	$password = "Skooltech_113012";
-	$dbname = "u528264240_eagles";
+	$dbname = "u190094471_eagles";
 	$conn = new mysqli($servername, $username, $password, $dbname);
-	$baseUrl = "https://raptorapps.xyz/tfoe";
+	$baseUrl = "https://tfoenmr9.com";
 }else{
 	$servername = "localhost";
 	$username = "root";

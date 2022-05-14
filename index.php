@@ -63,7 +63,7 @@
     <link rel="stylesheet" href="system/plugin/fontawesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="system/plugin/fontawesome/css/fontawesome.css">
 
-    <title>Kauswagan Lanao del Norte</title>
+    <title>TFOE NMR9 | Login</title>
   </head>
 
   <body class="login-body">
@@ -72,7 +72,7 @@
 
     <div class="container-fluid login-wrapper">
         <div class="login-box">
-            <h1 class="text-center mb-5">The Lanorte Eagles Club</h1>    
+            <h1 class="text-center mb-5">The fraternal Order of Eagles<br>Northern Mindanao Region 9</h1>    
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12 login-box-info bg-dark">
                     <h3 class="mb-4">Welcome Back!</h3>
