@@ -7,7 +7,7 @@ if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 	$password = "Skooltech_113012";
 	$dbname = "u190094471_eagles";
 	$conn = new mysqli($servername, $username, $password, $dbname);
-	$baseUrl = "https://tfoenmr9.com";
+	$baseUrl = "https://tfoenmr9.com/main";
 }else{
 	$servername = "localhost";
 	$username = "root";
