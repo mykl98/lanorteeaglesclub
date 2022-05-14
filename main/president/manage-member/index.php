@@ -3,7 +3,7 @@
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "president"){
     
     }else{
         session_destroy();

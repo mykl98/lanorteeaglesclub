@@ -3,7 +3,7 @@
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "president"){
     
     }else{
         session_destroy();
@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Dashboard</title>
+    <title>President | Search a Kuya</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -70,7 +70,7 @@
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
                 <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle mb-2" width="100px">
-                <p id="global-department-name" class="">Admin</p>
+                <p id="global-department-name" class="">President</p>
             </a>
             <?php include "../side-nav-bar.html"?>
         </aside>
@@ -81,12 +81,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Dashboard</h1>
+                            <h1 class="m-0 text-dark">Search a Kuya</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="<?php echo $baseUrl;?>">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item active">Search a Kuya</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -94,9 +94,18 @@
             </div><!-- /.content-header -->
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid">
-
-                </div><!-- /.container-fluid -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div id="club-filter-container"></div>
+                            </div>
+                            <div class="card-body">
+                                <div id="kuya-table-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -108,6 +117,49 @@
         </footer>
     </div>
     <!-- ./wrapper -->
+
+    <!-- View Kuya Modal -->
+    <div class="modal fade" id="view-kuya-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Kuya's Detail</h5>
+                    <button type="button" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <div align="center">
+                                    <img id="kuya-image" class="rounded-circle" width="150" src="<?php echo $baseUrl;?>/system/images/blank-profile.png">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="kuya-name" class="col-form-label">Name:</label>
+                                    <input type="text" class="form-control" id="kuya-name" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="kuya-address" class="col-form-label">Address:</label>
+                                    <input type="text" class="form-control" id="kuya-address" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="kuya-contact" class="col-form-label">Contact Number:</label>
+                                    <input type="text" class="form-control" id="kuya-contact" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="kuya-club" class="col-form-label">Club:</label>
+                                    <input type="text" class="form-control" id="kuya-club" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal -->
     <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

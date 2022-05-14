@@ -6,15 +6,13 @@
             global $conn;
             $data = array();
             $table = "club";
-            $sql = "SELECT * FROM `$table` ORDER by idx DESC";
+            $sql = "SELECT * FROM `$table` WHERE status='active' ORDER by name";
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     while($row=mysqli_fetch_array($result)){
                         $value = new \StdClass();
                         $value -> idx = $row["idx"];
                         $value -> name = $row["name"];
-                        $value -> image = $row["image"];
-                        $value -> status = $row["status"];
                         array_push($data,$value);
                     }
                 }

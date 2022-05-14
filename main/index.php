@@ -13,7 +13,7 @@ include_once "../system/backend/config.php";
                 $club = $row["club"];
                 $_SESSION["access"] = $access;
                 $_SESSION["club"] = $club;
-                header("location:" .$access. "/dashboard");
+                header("location:" .$access. "/search-kuya");
             }else{
                 session_destroy();
                 header("location:../index.php");
