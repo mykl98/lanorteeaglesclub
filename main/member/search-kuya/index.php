@@ -1,7 +1,7 @@
 <?php
     include_once "../../../system/backend/config.php";
     session_start();
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "president"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "member"){
         $club = $_SESSION["club"];
         $table = "club";
         $sql = "SELECT image FROM `$table` WHERE idx='$club'";
@@ -23,7 +23,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>President | Search a Kuya</title>
+    <title>Member | Search a Kuya</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -76,7 +76,7 @@
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
                 <img id="global-client-logo" src="<?php echo $clubImage;?>" class="rounded mb-2" width="100px">
-                <p id="global-department-name" class="">President</p>
+                <p id="global-department-name" class="">Member</p>
             </a>
             <?php include "../side-nav-bar.html"?>
         </aside>

@@ -2,21 +2,21 @@
     if($_POST){
         include_once "../../../system/backend/config.php";
 
-        function deleteAccount($idx){
+        function deleteMember($idx){
             global $conn;
             $table = "account";
             $sql = "DELETE FROM `$table` WHERE idx='$idx'";
             if(mysqli_query($conn,$sql)){
-                return "true*_*Successfully deleted this account.";
+                return "true*_*";
             }else{
-                return "System Failed!";
+                return "System Error!";
             }
         }
 
         session_start();
         if($_SESSION["isLoggedIn"] == "true"){
             $idx = sanitize($_POST["idx"]);
-            echo deleteAccount($idx);
+            echo deleteMember($idx);
         }else{
             echo "Access Denied!";
         }

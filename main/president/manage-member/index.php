@@ -1,10 +1,16 @@
 <?php
     include_once "../../../system/backend/config.php";
     session_start();
-    $idx = $_SESSION["loginidx"];
-
     if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "president"){
-    
+        $club = $_SESSION["club"];
+        $table = "club";
+        $sql = "SELECT image FROM `$table` WHERE idx='$club'";
+        if($result=mysqli_query($conn,$sql)){
+            if(mysqli_num_rows($result) > 0){
+                $row = mysqli_fetch_array($result);
+                $clubImage = $row["image"];
+            }
+        }
     }else{
         session_destroy();
         header("location:".$baseUrl."/index.php");
@@ -17,7 +23,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Manage Account</title>
+    <title>President | Manage Member</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -69,8 +75,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
-                <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle mb-2" width="100px">
-                <p id="global-department-name" class="">Admin</p>
+                <img id="global-client-logo" src="<?php echo $clubImage;?>" class="rounded mb-2" width="100px">
+                <p id="global-department-name" class="">President</p>
             </a>
             <?php include "../side-nav-bar.html"?>
         </aside>
@@ -81,12 +87,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Manage Accounts</h1>
+                            <h1 class="m-0 text-dark">Manage Members</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Manage-Accounts</li>
+                                <li class="breadcrumb-item active">Manage-Members</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -98,11 +104,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Account List</h3>
-                                <button class="btn btn-sm bg-success float-right" onclick="addAccount()"><span class="fa fa-plus"></span> Add Account</button>
+                                <h3 class="card-title">member List</h3>
+                                <button class="btn btn-sm bg-success float-right" onclick="addMember()"><span class="fa fa-plus"></span> Add Member</button>
                             </div>
                             <div class="card-body">
-                                <div id="manage-account-table-container"></div>
+                                <div id="member-table-container"></div>
                             </div>
                         </div>
                     </div>
@@ -120,49 +126,50 @@
     <!-- ./wrapper -->
 
     <!-- Modals -->
-    <div class="modal fade" id="add-edit-account-modal">
+    <div class="modal fade" id="add-edit-member-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="add-edit-account-modal-title">Create New Account</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearAddEditAccountModal()">
+                    <h5 class="modal-title" id="add-edit-member-modal-title">Create New Member</h5>
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div align="center">
-                            <img id="account-image" class="rounded-circle" width="150" src="<?php echo $baseUrl;?>/system/images/blank-profile.png">
+                        <div class="form-group">
+                            <label for="member-name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="member-name">
                         </div>
                         <div class="form-group">
-                            <label for="account-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" id="account-name">
+                            <label for="member-address" class="col-form-label">Address:</label>
+                            <input type="text" class="form-control" id="member-address">
                         </div>
                         <div class="form-group">
-                            <label for="account-username" class="col-form-label">Username:</label>
-                            <input type="text" class="form-control" id="account-username">
+                            <label for="member-contact" class="col-form-label">Contact Number:</label>
+                            <input type="text" class="form-control" id="member-contact">
                         </div>
                         <div class="form-group">
-                            <label for="account-access" class="col-form-label">Access:</label>
-                            <select class="form-control" id="account-access" onchange="accessChange()">
-                                <option value="admin">Admin</option>
-                                <option value="president">President</option>
-                            </select>
+                            <label for="member-profession" class="col-form-label">Profession:</label>
+                            <input type="text" class="form-control" id="member-profession">
                         </div>
-                        <div id="club-select-container"></div>
                         <div class="form-group">
-                            <label for="account-status" class="col-form-label">Status:</label>
-                            <select class="form-control" id="account-status">
+                            <label for="member-username" class="col-form-label">Username:</label>
+                            <input type="text" class="form-control" id="member-username" value="Automatically Generated" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="member-status" class="col-form-label">Status:</label>
+                            <select class="form-control" id="member-status">
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                             </select>
                         </div>
                     </form>
-                    <p id="save-account-error" class="text-danger font-italic small"></p>
+                    <p id="add-edit-member-modal-error" class="text-danger font-italic small"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAddEditAccountModal()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveAccount()">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveMember()">Save</button>
                 </div>
             </div>
         </div>
@@ -170,7 +177,7 @@
 
 
 <!-- Logout Modal -->
-    <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">

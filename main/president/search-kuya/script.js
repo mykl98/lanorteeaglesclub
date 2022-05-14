@@ -150,10 +150,10 @@ function renderKuyaList(data){
 function viewKuya(idx){
     $.ajax({
 		type: "POST",
-		url: "get-kuya-list.php",
+		url: "get-kuya-detail.php",
 		dataType: 'html',
 		data: {
-			club:club
+			idx:idx
 		},
 		success: function(response){
 			var resp = response.split("*_*");
@@ -177,7 +177,9 @@ function renderViewKuya(data){
         $("#kuya-name").val(list.name);
         $("#kuya-address").val(list.address);
         $("#kuya-contact").val(list.contact);
+        $("#kuya-profession").val(list.profession);
         $("#kuya-club").val(list.club);
+        //alert(list.club);
     })
     $("#view-kuya-modal").modal("show");
 }

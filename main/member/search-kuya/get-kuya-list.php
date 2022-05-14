@@ -3,9 +3,6 @@
         include_once "../../../system/backend/config.php";
 
         function getClubName($idx){
-            if($idx == ""){
-                return "";
-            }
             global $conn;
             $name = "";
             $table = "club";
@@ -19,25 +16,26 @@
             return $name;
         }
 
-        function getAccountList(){
+        function getKuyaList($club){
             global $conn;
             $data = array();
             $table = "account";
-            $sql = "SELECT * FROM `$table` WHERE access='admin' || access='president' ORDER by idx DESC";
+            if($club == "all"){
+                $sql = "SELECT * FROM `$table` WHERE status='active' AND access='member' ORDER by name";
+            }else{
+                $sql = "SELECT * FROM `$table` WHERE status='active' AND access='member' AND club='$club' ORDER by name";
+            }
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     while($row=mysqli_fetch_array($result)){
-                        if($row["idx"] != 0){
-                            $value = new \StdClass();
-                            $value -> idx = $row["idx"];
-                            $value -> name = $row["name"];
-                            $value -> club = getClubName($row["club"]);
-                            $value -> username = $row["username"];
-                            $value -> access = $row["access"];
-                            $value -> status = $row["status"];
-
-                            array_push($data,$value);
-                        }
+                        $value = new \StdClass();
+                        $value -> idx = $row["idx"];
+                        $value -> name = $row["name"];
+                        $value -> address = $row["address"];
+                        $value -> contact = $row["contact"];
+                        $value -> profession = $row["profession"];
+                        $value -> club = getClubName($row["club"]);
+                        array_push($data,$value);
                     }
                 }
                 $data = json_encode($data);
@@ -49,7 +47,8 @@
 
         session_start();
         if($_SESSION["isLoggedIn"] == "true"){
-            echo getAccountList();
+            $club = sanitize($_POST["club"]);
+            echo getKuyaList($club);
         }else{
             echo "Access Denied!";
         }

@@ -1,7 +1,7 @@
 $(document).ready(function() {
     setTimeout(function(){
-        $("#manage-account-menu").attr("href","#");
-        $("#manage-account-menu").addClass("active");
+        $("#manage-member-menu").attr("href","#");
+        $("#manage-member-menu").addClass("active");
     },100)
 })
 
@@ -19,9 +19,9 @@ $(".modal").on("hidden.bs.modal",function(){
     $(this).find("form").trigger("reset");
 })
 
-getAccountList();
+getMemberList();
 getUserDetails();
-getClubList();
+var memberIdx;
 var baseUrl = $("#base-url").text();
 
 function getUserDetails(){
@@ -57,10 +57,10 @@ function renderUserDetails(data){
 
 }
 
-function getAccountList(){
+function getMemberList(){
     $.ajax({
 		type: "POST",
-		url: "get-account-list.php",
+		url: "get-member-list.php",
 		dataType: 'html',
 		data: {
 			dummy:"dummy"
@@ -68,7 +68,7 @@ function getAccountList(){
 		success: function(response){
 			var resp = response.split("*_*");
 			if(resp[0] == "true"){
-				renderAccountList(resp[1]);
+				renderMemberList(resp[1]);
 			}else if(resp[0] == "false"){
 				alert(resp[1]);
 			} else{
@@ -78,127 +78,78 @@ function getAccountList(){
 	});
 }
 
-function renderAccountList(data){
+function renderMemberList(data){
     var lists = JSON.parse(data);
-    var markUp = '<table id="manage-account-table" class="table table-striped table-bordered table-sm">\
+    var markUp = '<table id="member-table" class="table table-striped table-bordered table-sm">\
                         <thead>\
                             <tr>\
                                 <th>Name</th>\
-                                <th>Username</th>\
-                                <th>Club</th>\
-                                <th>Access</th>\
+                                <th>Address</th>\
+                                <th>Contact Number</th>\
+                                <th>Profession</th>\
                                 <th>Status</th>\
                                 <th style="max-width:50px;min-width:50px;">Action</th>\
                             </tr>\
                         </thead>\
                         <tbody>';
     lists.forEach(function(list){
-        var image = list.image;
-        if(image == "" || image == undefined){
-            image = "../../../system/images/blank-profile.png";
-        }
         markUp += '<tr>\
                         <td>'+list.name+'</td>\
-                        <td>'+list.username+'</td>\
-                        <td>'+list.club+'</td>\
-                        <td>'+list.access+'</td>\
+                        <td>'+list.address+'</td>\
+                        <td>'+list.contact+'</td>\
+                        <td>'+list.profession+'</td>\
                         <td>'+list.status+'</td>\
                         <td>\
-                            <button class="btn btn-success btn-sm" onclick="editAccount(\''+ list.idx +'\')"><i class="fa fa-pencil"></i></button>\
-                            <button class="btn btn-danger btn-sm" onclick="deleteAccount(\''+ list.idx +'\')"><i class="fas fa-trash"></i></button>\
+                            <button class="btn btn-success btn-sm" onclick="editMember(\''+ list.idx +'\')"><i class="fa fa-pencil"></i></button>\
+                            <button class="btn btn-danger btn-sm" onclick="deleteMember(\''+ list.idx +'\')"><i class="fas fa-trash"></i></button>\
                         </td>\
                    </tr>';
     })
     markUp += '</tbody></table>';
-    $("#manage-account-table-container").html(markUp);
-    $("#manage-account-table").DataTable();
+    $("#member-table-container").html(markUp);
+    $("#member-table").DataTable();
 }
 
-function getClubList(){
-    $.ajax({
-		type: "POST",
-		url: "get-club-list.php",
-		dataType: 'html',
-		data: {
-			dummy:"dummy"
-		},
-		success: function(response){
-			var resp = response.split("*_*");
-			if(resp[0] == "true"){
-				renderClubList(resp[1]);
-			}else if(resp[0] == "false"){
-				alert(resp[1]);
-			} else{
-				alert(response);
-			}
-		}
-	});
+function addMember(){
+    memberIdx = "";
+    $("#add-edit-member-modal").modal("show");
+    $("#add-edit-member-modal-error").text("");
 }
 
-function renderClubList(data){
-    var lists = JSON.parse(data);
-    var markUp = '<div class="form-group" id="club-container">\
-                        <label for="account-club" class="col-form-label">Club:</label>\
-                        <select class="form-control" id="account-club">\
-                            <option value="">SELECT CLUB</option>';
-    lists.forEach(function(list){
-        markUp += '<option value="'+list.idx+'">'+list.name+'</option>';
-    })
-    markUp += '</select></div>';
-    $("#club-select-container").html(markUp);
-    $("#club-container").hide();
-}
-
-function accessChange(){
-    var access = $("#account-access").val();
-    if(access == "president"){
-        $("#club-container").show();
-    }else{
-        $("#club-container").hide();
-        $("#account-club").val("");
-    }
-}
-
-function addAccount(){
-    manageAccountIdx = "";
-    $("#add-edit-account-modal").modal("show");
-    $("#save-account-error").text("");
-}
-
-function saveAccount(){
-    var name = $("#account-name").val();
-    var username = $("#account-username").val();
-    var club = $("#account-club").val();
-    var access = $("#account-access").val();
-    var status = $("#account-status").val();
-
+function saveMember(){
+    var name = $("#member-name").val();
+    var address = $("#member-address").val();
+    var contact = $("#member-contact").val();
+    var profession = $("#member-profession").val();
+    var status = $("#member-status").val();
     var error = "";
+
     if(name == "" || name == undefined){
         error = "*Name field should not be empty.";
-    }else if(username == "" || username == undefined){
-        error = "*Username field should not be empty.";
-    }else if(access == "" || access == undefined){
-        error = "*Please select access level!";
-    }else if(access == "president" && club == ""){
-        error = "*Please select club!";
+    }else if(address == "" || address == undefined){
+        error = "*Address field should not be empty.";
+    }else if(contact == "" || contact == undefined){
+        error = "*Contact Number field should not be empty!";
+    }else if(profession == "" || profession == undefined){
+        error = "*Profession field should not be empty!";
     }else{
         $.ajax({
             type: "POST",
-            url: "save-account.php",
+            url: "save-member.php",
             dataType: 'html',
             data: {
-                idx:manageAccountIdx,
+                idx:memberIdx,
                 name:name,
-                username:username,
-                club:club,
-                access:access,
+                address:address,
+                contact:contact,
+                profession:profession,
                 status:status
             },
             success: function(response){
                 var resp = response.split("*_*");
                 if(resp[0] == "true"){
-                    $("#add-edit-account-modal").modal("hide");
-                    getAccountList();
+                    $("#add-edit-member-modal").modal("hide");
+                    getMemberList();
                 }else if(resp[0] == "false"){
                     alert(resp[1]);
                 } else{
@@ -208,22 +159,22 @@ function saveAccount(){
         });
     }
 
-    $("#save-account-error").text(error);
+    $("#add-edit-member-modal-error").text(error);
 }
 
-function editAccount(idx){
-    manageAccountIdx = idx;
+function editMember(idx){
+    memberIdx = idx;
     $.ajax({
         type: "POST",
-        url: "get-account-detail.php",
+        url: "get-member-detail.php",
         dataType: 'html',
         data: {
-            idx:idx
+            idx:memberIdx
         },
         success: function(response){
             var resp = response.split("*_*");
             if(resp[0] == "true"){
-                renderEditAccount(resp[1]);
+                renderEditMember(resp[1]);
             }else if(resp[0] == "false"){
                 alert(resp[1]);
             } else{
@@ -233,36 +184,34 @@ function editAccount(idx){
     });
 }
 
-function renderEditAccount(data){
+function renderEditMember(data){
     var lists = JSON.parse(data);
-
     lists.forEach(function(list){
-        $("#account-name").val(list.name);
-        $("#account-username").val(list.username);
-        $("#account-access").val(list.access);
-        $("#account-status").val(list.status);
-
-        $("#add-edit-account-modal-title").text("Edit " + list.name + "'s Account Details");
+        $("#member-name").val(list.name);
+        $("#member-address").val(list.address);
+        $("#member-contact").val(list.contact);
+        $("#member-profession").val(list.profession);
+        $("#member-username").val(list.username);
+        $("#member-status").val(list.status);   
     })
-    $("#save-account-error").text("");
-    $("#add-edit-account-modal").modal("show");
-    accessChange();
+    $("#add-edit-member-modal-title").text("Edit Member Details");
+    $("#add-edit-member-modal-error").text("");
+    $("#add-edit-member-modal").modal("show");
 }
 
-function deleteAccount(idx,name){
-    if(confirm("Are you sure you want to delete this Account?\nThis Action cannot be undone!")){
+function deleteMember(idx){
+    if(confirm("Are you sure you want to delete this Member?\nThis Action cannot be undone!")){
         $.ajax({
             type: "POST",
-            url: "delete-account.php",
+            url: "delete-member.php",
             dataType: 'html',
             data: {
-                idx:idx,
-                name:name
+                idx:idx
             },
             success: function(response){
                 var resp = response.split("*_*");
                 if(resp[0] == "true"){
-                    getAccountList();
+                    getMemberList();
                 }else if(resp[0] == "false"){
                     alert(resp[1]);
                 } else{
