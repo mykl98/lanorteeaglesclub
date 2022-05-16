@@ -16,6 +16,7 @@
                     $value -> address = $row["address"];
                     $value -> contact = $row["contact"];
                     $value -> profession = $row["profession"];
+                    $value -> club = $row["club"];
                     $value -> username = $row["username"];
                     $value -> status = $row["status"];
                     array_push($data,$value);

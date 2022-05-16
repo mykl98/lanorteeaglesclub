@@ -1,16 +1,8 @@
 <?php
     include_once "../../../system/backend/config.php";
     session_start();
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "president"){
-        $club = $_SESSION["club"];
-        $table = "club";
-        $sql = "SELECT image FROM `$table` WHERE idx='$club'";
-        if($result=mysqli_query($conn,$sql)){
-            if(mysqli_num_rows($result) > 0){
-                $row = mysqli_fetch_array($result);
-                $clubImage = $row["image"];
-            }
-        }
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+        
     }else{
         session_destroy();
         header("location:".$baseUrl."/index.php");
@@ -23,7 +15,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>President | Manage Member</title>
+    <title>Admin | Manage Member</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -75,8 +67,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
-                <img id="global-client-logo" src="<?php echo $clubImage;?>" class="rounded mb-2" width="100px">
-                <p id="global-department-name" class="">President</p>
+                <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded mb-2" width="100px">
+                <p id="global-department-name" class="">Admin</p>
             </a>
             <?php include "../side-nav-bar.html"?>
         </aside>
@@ -153,6 +145,7 @@
                             <label for="member-profession" class="col-form-label">Profession:</label>
                             <input type="text" class="form-control" id="member-profession">
                         </div>
+                        <div id="club-select-container"></div>
                         <div class="form-group">
                             <label for="member-username" class="col-form-label">Username:</label>
                             <input type="text" class="form-control" id="member-username" value="Automatically Generated" readonly>

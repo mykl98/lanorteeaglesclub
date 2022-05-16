@@ -20,6 +20,7 @@ $(".modal").on("hidden.bs.modal",function(){
 })
 
 getMemberList();
+getClubList();
 getUserDetails();
 var memberIdx;
 var baseUrl = $("#base-url").text();
@@ -87,6 +88,7 @@ function renderMemberList(data){
                                 <th>Address</th>\
                                 <th>Contact Number</th>\
                                 <th>Profession</th>\
+                                <th>Club</th>\
                                 <th>Status</th>\
                                 <th style="max-width:50px;min-width:50px;">Action</th>\
                             </tr>\
@@ -98,6 +100,7 @@ function renderMemberList(data){
                         <td>'+list.address+'</td>\
                         <td>'+list.contact+'</td>\
                         <td>'+list.profession+'</td>\
+                        <td>'+list.club+'</td>\
                         <td>'+list.status+'</td>\
                         <td>\
                             <button class="btn btn-success btn-sm" onclick="editMember(\''+ list.idx +'\')"><i class="fa fa-pencil"></i></button>\
@@ -108,6 +111,40 @@ function renderMemberList(data){
     markUp += '</tbody></table>';
     $("#member-table-container").html(markUp);
     $("#member-table").DataTable();
+}
+
+function getClubList(){
+    $.ajax({
+		type: "POST",
+		url: "get-club-list.php",
+		dataType: 'html',
+		data: {
+			dummy:"dummy"
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				renderClubList(resp[1]);
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
+}
+
+function renderClubList(data){
+    var lists = JSON.parse(data);
+    var markUp = '<div class="form-group">\
+                    <label for="member-club" class="col-form-label">Club:</label>\
+                    <select class="form-control" id="member-club">\
+                        <option value="">SELECT CLUB</option>';
+    lists.forEach(function(list){
+        markUp += '<option value="'+list.idx+'">'+list.name+'</option>';
+    })
+    markUp += '</select></div>';
+    $("#club-select-container").html(markUp);
 }
 
 function addMember(){
@@ -121,6 +158,7 @@ function saveMember(){
     var address = $("#member-address").val();
     var contact = $("#member-contact").val();
     var profession = $("#member-profession").val();
+    var club = $("#member-club").val();
     var status = $("#member-status").val();
     var error = "";
 
@@ -130,8 +168,10 @@ function saveMember(){
         error = "*Address field should not be empty.";
     }else if(contact == "" || contact == undefined){
         error = "*Contact Number field should not be empty!";
-    }else if(profession == "" || profession == undefined){
-        error = "*Profession field should not be empty!";
+    }else if(contact == "" || contact == undefined){
+        error = "*Contact Number field should not be empty!";
+    }else if(club == "" || club == undefined){
+        error = "*Please select club!";
     }else{
         $.ajax({
             type: "POST",
@@ -143,6 +183,7 @@ function saveMember(){
                 address:address,
                 contact:contact,
                 profession:profession,
+                club:club,
                 status:status
             },
             success: function(response){
@@ -191,6 +232,7 @@ function renderEditMember(data){
         $("#member-address").val(list.address);
         $("#member-contact").val(list.contact);
         $("#member-profession").val(list.profession);
+        $("#member-club").val(list.club);
         $("#member-username").val(list.username);
         $("#member-status").val(list.status);   
     })

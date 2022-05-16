@@ -25,8 +25,8 @@ if($_POST){
         $address = sanitize($_POST["address"]);
         $contact = sanitize($_POST["contact"]);
         $profession = sanitize($_POST["profession"]);
+        $club = sanitize($_POST["club"]);
         $status = sanitize($_POST["status"]);
-        $club = $_SESSION["club"];
         if(!empty($name)&&!empty($address)&&!empty($contact)&&!empty($profession)&&!empty($status)){
             echo saveMember($idx,$name,$address,$contact,$profession,$status,$club);
         }else{
