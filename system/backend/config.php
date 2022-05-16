@@ -53,4 +53,39 @@ function generateCode($length){
 	}
 	return $randomString;
 }
+
+$shortCode = "23737526";
+$passPhrase = "slQ2p8hokq";
+$appId = "z5xjHEeRb8tBgin5BMcR6gtEa58oHGXX";
+$appSecret = "810df2bbe3d25bfe2e8dd9ef64d85798231b9134e92f252b974ed1bdc60242f1";
+
+function sendMessage($number,$message){
+	global $conn,$shortCode,$passPhrase,$appId,$appSecret;
+	$url = "https://devapi.globelabs.com.ph/smsmessaging/v1/outbound/".$shortCode."/requests?passphrase=".$passPhrase."&app_id=".$appId."&app_secret=".$appSecret;
+	$dataArray = [
+		'outboundSMSMessageRequest' => [
+			'clientCorrelator' => $number,
+			'outboundSMSTextMessage' => ['message' => rawurldecode(rawurldecode($message))],
+			'address' => $number
+		]
+	];
+	$json_data = json_encode($dataArray);
+
+	$curl = curl_init($url);
+	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $json_data);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/json',
+		'Content-Length: ' . strlen($json_data))
+	);
+	$response = curl_exec($curl);
+	$err = curl_error($curl);
+	curl_close($curl);
+	if ($err) {
+		return "false";
+	} else {
+		return "true";
+	}
+}
 ?>
