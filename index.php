@@ -72,7 +72,7 @@
 
     <div class="container-fluid login-wrapper">
         <div class="login-box">
-            <h1 class="text-center mb-5">The fraternal Order of Eagles<br>Northern Mindanao Region 9</h1>    
+            <h1 class="text-center mb-5">TFOE NMR9<br>Members's Database and Portal System</h1>    
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12 login-box-info bg-dark">
                     <h3 class="mb-4">Welcome Back!</h3>
