@@ -6,6 +6,7 @@
     if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
     
     }else{
+        session_destroy();
         header("location:".$baseUrl."/index.php");
         exit();
     }
@@ -16,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amdin | Profile Settings</title>
+    <title>Admin | Profile Settings</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -53,7 +54,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="" data-toggle="dropdown" href="#">
-                        <img id="global-user-image" class="rounded-circle" src="../../../../../system/images/blank-profile.png" width="40px" height="40px">
+                        <img id="global-user-image" class="rounded-circle" src="<?php echo $baseUrl;?>/system/images/blank-profile.png" width="40px" height="40px">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-13" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="../profile-setting"><i class="fa fa-user pr-2"></i> Profile</a>

@@ -44,10 +44,6 @@ function saveProfileSettings(){
     userName = $("#profile-settings-name").val();
     userUsername = $("#profile-settings-username").val();
 
-    if(!userImage.indexOf("data:image/png;base64") >= 0){
-        userImage = "";
-    }
-
     var error;
     if(userName == "" || userName == undefined){
         error = "*Name field should not be empty.";
@@ -179,7 +175,7 @@ function logout(){
         success: function(response){
             var resp = response.split("*_*");
             if(resp[0] == "true"){
-                window.open(baseUrl + "/index.php","_self")
+                window.open("../../../index.php","_self")
             }else if(resp[0] == "false"){
                 alert(resp[1]);
             } else{

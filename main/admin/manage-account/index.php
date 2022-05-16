@@ -146,6 +146,7 @@
                             <label for="account-access" class="col-form-label">Access:</label>
                             <select class="form-control" id="account-access" onchange="accessChange()">
                                 <option value="admin">Admin</option>
+                                <option value="staff">Staff</option>
                                 <option value="president">President</option>
                             </select>
                         </div>

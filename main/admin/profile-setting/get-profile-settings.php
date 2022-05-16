@@ -14,7 +14,6 @@
                     $value -> image = $row["image"];
                     $value -> name = $row["name"];
                     $value -> username = $row["username"];
-
                     array_push($data,$value);
                 }
                 $data = json_encode($data);

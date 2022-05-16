@@ -3,7 +3,7 @@
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "staff"){
     
     }else{
         session_destroy();
@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Manage Club</title>
+    <title>Staff | Manage Club</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -72,7 +72,7 @@
             <!-- Brand Logo -->
             <a href="#" class="brand-link text-center pb-0">
                 <img id="global-client-logo" src="<?php echo $baseUrl;?>/system/images/logo.png" class="rounded-circle mb-2" width="100px">
-                <p id="global-department-name" class="text-wrap">Admin</p>
+                <p id="global-department-name" class="text-wrap">Staff</p>
             </a>
 
             <?php include "../side-nav-bar.html"?>
